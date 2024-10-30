@@ -11,7 +11,7 @@ namespace sisteme_neliniare
 	{
 		//a,b start / end interval
 		//dda, ddb - derivata dubla a,b
-		static decimal a, b, epsilon, dda, ddb, xn, xn_1;
+		static decimal a, b, epsilon, dda, xn, xn_1;
 		static int n;
 		static void Main(string[] args)
 		{
@@ -26,12 +26,11 @@ namespace sisteme_neliniare
 			a = 0;
 			b = 1;
 			dda = 0;
-			ddb = 6;
-			epsilon = 1e-26m;
+			epsilon = 1e-4m;
 
 			decimal aux;
 
-			if(f(a) * dda <= 0)
+			if(f(a) * dda < 0)
 			{
 				xn_1 = a;
 				aux = b;
