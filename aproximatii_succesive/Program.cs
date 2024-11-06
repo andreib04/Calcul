@@ -15,8 +15,6 @@ namespace aproximatii_succesive
 
 		static void Main(string[] args)
 		{
-            Console.WriteLine("alo");
-
 			aproximare();
 
 			Console.ReadKey();
@@ -26,7 +24,7 @@ namespace aproximatii_succesive
 		{
 			a = 1;
 			b = 2;
-			eps = 1e-4m;
+			eps = 1e20m;
 			n = 1;
 
 			xn_1 = a;
