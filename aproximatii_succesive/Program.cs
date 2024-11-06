@@ -10,36 +10,70 @@ namespace aproximatii_succesive
 	{
 		public static decimal n;
 		public static decimal eps;
-		public static decimal xn, xn_1;
+		public static decimal xn, xn_1, yn, yn_1;
 		public static decimal a, b;
 
 		static void Main(string[] args)
 		{
-			aproximare();
+			aproximareSistemeNeliniare();
 
 			Console.ReadKey();
 		}
 
-		public static void aproximare()
+		//public static void aproximare()
+		//{
+		//	a = 1;
+		//	b = 2;
+		//	eps = 1e20m;
+		//	n = 1;
+
+		//	xn_1 = a;
+
+		//	xn = fi(xn_1);
+
+		//	do
+		//	{
+		//		n++;
+
+		//		xn_1 = xn;
+		//		xn = fi(xn_1);
+		//	} while (Math.Abs(xn - xn_1) >= eps);
+
+		//	Console.WriteLine(n + " " + xn_1);
+		//}
+
+		public static void aproximareSistemeNeliniare()
 		{
-			a = 1;
-			b = 2;
 			eps = 1e20m;
 			n = 1;
 
-			xn_1 = a;
+			xn_1 = 3.5m;
+			yn_1 = 2.2m;
 
-			xn = fi(xn_1);
+			yn = G(xn_1, yn_1);
+			xn = F(xn_1, yn_1);
 
 			do
 			{
 				n++;
 
+				yn_1 = yn;
 				xn_1 = xn;
-				xn = fi(xn_1);
-			} while (Math.Abs(xn - xn_1) >= eps);
+				yn = G(xn_1, yn_1);
+				xn = F(xn_1, yn_1);
+			} while (Math.Abs(xn - xn_1) >= eps || Math.Abs(yn - yn_1) >= eps);
 
-			Console.WriteLine(n + " " + xn_1);
+			Console.WriteLine(xn + " " + yn + " " + n);
+		}
+
+		public static decimal F(decimal x, decimal y)
+		{
+			return (decimal)Math.Sqrt((double)(x * (y+5) - 1)/2);
+		}
+
+		public static decimal G(decimal x, decimal y)
+		{
+			return (decimal)Math.Sqrt((double)(x + 3 * (decimal)Math.Log10((double)x)));
 		}
 
 		public static decimal fi(decimal x)
