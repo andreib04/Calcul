@@ -40,7 +40,6 @@ namespace Tangenta
 			}
 
 			xn = xn_1 - (fRad(xn_1) / dfRad(xn_1));
-
 			do
 			{
 				n++;
