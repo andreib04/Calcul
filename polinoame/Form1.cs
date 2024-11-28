@@ -16,9 +16,58 @@ namespace polinoame
 		Bitmap bitmap;
 		decimal x0, xn, y0, yn;
 
-		int m;
-		decimal[] x, y, u;
+		int m, n;
+		decimal[] x, y, u, p;
 		decimal[,] Nf;
+		decimal[][] T;
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			decimal a = 0;
+			decimal b = (decimal)Math.PI;
+			n = 7;
+			p = new decimal[n];
+			u = new decimal[1000];
+			T = new decimal[n][];
+
+			for(int i = 0; i < n; i++)
+			{
+				T[i] = new decimal[1000];
+			}
+
+			p[0] = 1;
+			decimal h = (b - a) / 1000;
+			int k;
+
+			for (k = 1; k < n; k++)
+			{
+				p[k] = p[k - 1] * k;
+			}
+
+			for (int j = 0; j < 1000; j++)
+			{
+				u[j] = a + j * h;
+				T[0][j] = f(0);
+
+				for (k = 1; k < n; k++)
+				{
+	
+					T[k][j] = T[k - 1][j] + ((1 / p[k]) * (decimal)Math.Pow((double)(u[j] - a), k)) * f(k);
+				}
+			}
+
+			x0 = u.Min();
+			xn = u.Max();
+			y0 = T[n - 2].Min();
+			yn = T[n - 2].Max();
+
+			DrawGraph(u, T[n - 2]);
+		}
+
+		public decimal f(decimal x)
+		{
+			return (decimal)Math.Sin((double)x);
+		}
 
 		public Form1()
 		{
@@ -77,7 +126,7 @@ namespace polinoame
 			}
 
 			//Pas 3: desenare
-			DrawGraph(u, f);      
+			//DrawGraph(u, f);      
 
 		}
 
