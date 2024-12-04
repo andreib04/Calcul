@@ -17,9 +17,117 @@ namespace polinoame
 		decimal x0, xn, y0, yn;
 
 		int m, n;
-		decimal[] x, y, u, p;
+		decimal[] x, y, u, p, q;
 		decimal[,] Nf;
 		decimal[][] T;
+		decimal s1, s2, s3, s4, t1, t2, t3, a, b, c, d, d1, d2, d3;
+		decimal h;
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			n = 6;
+			s1 = s2 = s3 = s4 = 0;
+			t1 = t2 = t3 = 0;
+
+			u = new decimal[10000];
+			q = new decimal[10000];
+
+			x = new decimal[] { -3, -2, -1, 0, 1, 2, 3 };
+			y = new decimal[] { 6, 4, 1, 2, 3, 8, 11 };
+
+			x0 = x.Min();
+			xn = x.Max();
+			y0 = y.Min();
+			yn = y.Max();
+
+			for (int i = 0; i <= n; i++)
+			{
+				s1 += x[i];
+				s2 += x[i] * x[i];
+				s3 += x[i] * x[i] * x[i];
+				s4 += x[i] * x[i] * x[i] * x[i];
+
+				t1 += y[i];
+				t2 += x[i] * y[i];
+				t3 += x[i] * x[i] * y[i];
+			}
+
+			d = (n + 1) * s2 * s4 + 2 * s1 * s2 * s3 - s2 * s2 * s2 - s1 * s1 * s4 - (n + 1) * s3 * s3;
+			d1 = (n + 1) * s2 * t3 + s1 * s2 * t2 + s1 * s3 * t1 - s2 * s2 * t1 - s1 * s1 * t2 - (n + 1) * s3 * t2;
+			d2 = (n + 1) * t2 * s4 + s4 + s2 * s3 * t1 + s1 * s2 * t3 - s2 * s2 * t2 - s1 * s4 * t1 - (n + 1) * s3 * t3;
+			d3 = s2 * s4 * t1 + s1 * s3 * t3 + s2 * s3 * t2 - s2 * s2 * t3 - s1 * s4 * t2 - s3 * s3 * t1;
+
+			a = d1 / d;
+			b = d2 / d;
+			c = d3 / d;
+
+			textBox1.Text = a + " " + b + " " + c;
+
+			h = (xn - x0) / 1000;
+
+			for(int j = 0; j < 1000; j++)
+			{
+				u[j] = x0 + j * h;
+				q[j] = a * u[j] * u[j] + b * u[j] + c;
+			}
+			bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+			DrawGraph(u, q);
+			DrawGraph(x, y);
+		}
+
+		
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			n = 5;
+			s1 = 0;
+			s2 = 0;
+			t1 = 0;
+			t2 = 0;
+			
+			u = new decimal[10000];
+			q = new decimal[10000];
+
+			x = new decimal[] {1, 3, 4, 6, 8, 9 };
+			y = new decimal[] { 1, 2, 4, 4, 5, 3 };
+			
+			x0 = x[0];
+			xn = x[n];
+			y0 = y[0];
+			yn = y.Max();
+
+			for(int i = 0; i <= n; i++)
+			{
+				s1 += x[i];
+				s2 += x[i] * x[i];
+				t1 += y[i];
+				t2 += x[i] * y[i];
+			}
+
+			d = (n + 1) * s2 - s1 * s1;
+			d1 = (n + 1) * t2 - s1 * t1;
+			d2 = s2 * t1 - t2 * s1;
+
+			a = d1 / d;
+			b = d2 / d;
+
+			textBox1.Text = a + " " + b;
+
+			h = (xn - x0) / 1000;
+
+			
+			for(int j = 0; j < 1000; j++)
+			{
+				u[j] = x0 + j * h;
+				q[j] = a * u[j] + b;
+			}
+			bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+			DrawGraph(u, q);
+			DrawGraph(x, y);
+			
+		}
 
 		private void button2_Click(object sender, EventArgs e)
 		{
@@ -60,6 +168,7 @@ namespace polinoame
 			xn = u.Max();
 			y0 = T[n - 2].Min();
 			yn = T[n - 2].Max();
+
 
 			DrawGraph(u, T[n - 2]);
 		}
@@ -132,7 +241,6 @@ namespace polinoame
 
 		public void DrawGraph(decimal[] x, decimal[] y)
 		{
-			bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 			graphics = Graphics.FromImage(bitmap);
 
 			for (int i = 0; i < x.Length; i++)
